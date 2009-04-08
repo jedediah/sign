@@ -1,0 +1,20 @@
+=== sign.rb ===
+
+What: crude library to control the LED sign at hacklab.to
+Requires: rmagic, impact.ttf (truetype font)
+Synopsis:
+
+  require 'sign'
+  sign = Sign.new 192.168.111.4, 2330   # these are the defaults and can be omitted
+  sign.show_text "LOL"                  # show text for 2 seconds
+  sign.scroll_text "woot"               # scroll text from right to left
+  sign.show some_pixels                 # show 3072 (96*32) byte array for 2 seconds
+  sign.show_file "lol.sign"             # show 96x32 ascii image, ignoring # lines
+  sign.close
+
+
+=== web.rb ===
+
+What: very simple web app to send scrolling text to the sign
+Requires: sinatra
+Usage: ruby web.rb

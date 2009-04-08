@@ -1,0 +1,58 @@
+
+<html><head>
+
+<title>the sign</title>
+
+<script type="text/javascript">
+
+Token = "<%= @token %>"
+
+function Result(str) {
+  document.getElementById("result").innerHTML = str.replace(/</,"&lt;").replace(/>/,"&gt;")
+}
+
+function ShowMessage() {
+  el = document.getElementById("msg")
+  if (el.value == "") { return }
+  var msg = el.value
+  el.value = ""
+
+  var xhr
+  try { xhr = new XMLHttpRequest() }
+  catch(e) { try { xhr = new ActiveXObject("Msxml2.XMLHTTP") }
+  catch(e) { try { xhr = new ActiveXObject("Microsoft.XMLHTTP") }
+  catch(e) { alert("Your browser sucks too much to live") }}}
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      if (xhr.responseText.match(/^[0-9]+$/)) {
+        Token = xhr.responseText
+      }
+
+      if (xhr.status == 200) {
+        Result("Sent \"" + msg + "\"") 
+     } else {
+        Result("Fail!")
+      }
+    } else {
+      Result("Sending \"" + msg +"\"...")
+    }
+  }
+
+  xhr.open("GET","/show?msg="+escape(msg)+"&token="+escape(Token),true)
+  xhr.send(null)  
+}
+
+</script>
+
+</head><body>
+
+<input id="msg" />
+<input type="button" value="show" onclick="ShowMessage()" />
+<span id="result" style="color: blue"></span>
+<br />
+<br />
+
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="400" height="320" id="utv295909"><param name="flashvars" value="viewcount=true&amp;autoplay=false&amp;brand=embed"/><param name="allowfullscreen" value="true"/><param name="allowscriptaccess" value="always"/><param name="movie" value="http://www.ustream.tv/flash/live/1/494406"/><embed flashvars="viewcount=true&amp;autoplay=false&amp;brand=embed" width="400" height="320" allowfullscreen="true" allowscriptaccess="always" id="utv295909" name="utv_n_257942" src="http://www.ustream.tv/flash/live/1/494406" type="application/x-shockwave-flash" /></object><a href="http://www.ustream.tv/" style="padding:2px 0px 4px;width:400px;background:#FFFFFF;display:block;color:#000000;font-weight:normal;font-size:10px;text-decoration:underline;text-align:center;" target="_blank">Video streaming by Ustream</a>
+
+</body></html>
