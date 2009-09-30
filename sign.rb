@@ -1,6 +1,8 @@
 require 'socket'
 require 'RMagick'
 
+PWD = File.dirname(__FILE__)
+
 class Array
   def to_ascii
     reduce("".encode("ASCII-8BIT")) {|s,n| s << n.chr}
@@ -49,9 +51,10 @@ class Sign
   end
 
   def draw_text x, y, height, text, options={}
+    text = text.gsub /\s+/,' '
     d = Magick::Draw.new
     d.fill = if !options.has_key? :color || options[:color] then "white" else "black" end
-    d.font = options[:font] || "impact.ttf"
+    d.font = options[:font] || "#{PWD}/impact.ttf"
     d.font_weight = options[:weight] || Magick::NormalWeight
 
     d.pointsize = 100
@@ -110,4 +113,8 @@ class Sign
   def close
     @socket.close
   end
+end
+
+if $PROGRAM_NAME =~ /sign\.rb$/ && ARGV[0]
+  Sign.new.scroll_text ARGV[0]
 end

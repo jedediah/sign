@@ -1,5 +1,5 @@
 require "sinatra"
-require "sign.rb"
+require File.join(File.dirname(__FILE__), "sign.rb")
 
 set :views, File.dirname(__FILE__)
 
